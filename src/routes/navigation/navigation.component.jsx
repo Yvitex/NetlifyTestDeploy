@@ -7,22 +7,22 @@ import {
     NavigationLinkContainer,
     NavLink
 } from "./navigation.style";
+import { useSelector } from "react-redux";
 
-
-import { UserContext } from "../../context/context.component";
-import { useContext } from "react";
 import { signOutUser } from "../../utils/firebase/firebase.utils";
 import CartIcon from "../../component/cart-icon/cart-icon.component";
 import CartDropdown from "../../component/cart-dropdown/cart-dropdown.component";
-import { CartOpenContext } from "../../context/cart.context";
+import { selectCurrentUser } from "../../store/user/user.selection";
+import { selectIsCartOpen } from "../../store/cart/cart.selector";
+import { useDispatch } from "react-redux";
+import { signOutStart } from "../../store/user/user.action";
 
 const NavigationBar = () => {
-    const {currentUser} = useContext(UserContext);
-    const {isCartOpen} = useContext(CartOpenContext);
+    const currentUser = useSelector(selectCurrentUser);
+    const isCartOpen = useSelector(selectIsCartOpen);
+    const dispatch = useDispatch();
 
-    const signOut = async () => {
-        await signOutUser();
-    }
+    const signOut = () => dispatch(signOutStart());
 
     return (
       <Fragment>

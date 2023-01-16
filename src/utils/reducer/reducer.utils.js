@@ -1,0 +1,1 @@
+export const dispatchHelper = (type, payload) => ({type, payload});

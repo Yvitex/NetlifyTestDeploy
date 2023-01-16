@@ -1,14 +1,20 @@
-import logo from './logo.svg';
 import './App.scss';
 import Home from './routes/home/home.component';
-import {Routes, Route, Outlet} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 import NavigationBar from './routes/navigation/navigation.component';
 import Authentication from './routes/authentication/authentication';
 import Shop from './routes/shop/shop.component';
 import Checkout from './routes/checkout/checkout.component';
-
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { checkUserSession } from './store/user/user.action';
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkUserSession());
+  }, [])
 
   return (
     <Routes>

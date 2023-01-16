@@ -1,5 +1,5 @@
 import { getDefaultNormalizer } from "@testing-library/react";
-import { BaseButton, GoogleButton, InvertedButton } from "./button.style";
+import { BaseButton, GoogleButton, InvertedButton, ButtonSpinner } from "./button.style";
 
 export const BUTTON_TYPES = {
     base: "base",
@@ -15,10 +15,10 @@ const getButton = (buttonType = BUTTON_TYPES.base) => (
     }[buttonType]
 )
 
-const Button = ({text, customStyles, ...otherProps}) => {
+const Button = ({text, isLoading, customStyles, ...otherProps}) => {
     const CustomButton = getButton(customStyles);
     return (
-        <CustomButton {...otherProps}>{text}</CustomButton>
+        <CustomButton {...otherProps}>{isLoading ? <ButtonSpinner /> : text}</CustomButton>
     )
 }
 

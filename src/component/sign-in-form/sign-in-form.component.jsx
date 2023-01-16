@@ -1,11 +1,12 @@
 import { useState } from "react"
-import {createUserDocumentFromAuth, signInWithEmail} from "../../utils/firebase/firebase.utils";
+import {signInWithEmail} from "../../utils/firebase/firebase.utils";
 import "./sign-in-form.style.scss"
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 import { signInWithGoogle } from "../../utils/firebase/firebase.utils";
-import { UserContext } from "../../context/context.component";
 import { BUTTON_TYPES } from "../button/button.component";
+import { useDispatch } from "react-redux";
+import { googleSigninStart, emailSigninStart } from "../../store/user/user.action";
 
 const initialUserInfo = {
     email: "",
@@ -15,6 +16,7 @@ const initialUserInfo = {
 const SignInForm = () => {
     const [formFields, setFormFields] = useState(initialUserInfo);
     const {email, password} = formFields;
+    const dispatch = useDispatch();
 
     const handleOnChange = (event) => {
         const {name, value} = event.target;
@@ -29,7 +31,8 @@ const SignInForm = () => {
         event.preventDefault();
 
         try {
-            const { user } = await signInWithEmail(email, password);
+            dispatch(emailSigninStart(email, password));
+            // const { user } = await signInWithEmail(email, password);
             resetForm();
         } catch (error) {
             if(error.code == "auth/user-not-found"){
@@ -45,8 +48,7 @@ const SignInForm = () => {
     }
 
     const googleSignIn = async() => {
-        const {user} = await signInWithGoogle();
-        
+        dispatch(googleSigninStart());
     }
 
     return (
